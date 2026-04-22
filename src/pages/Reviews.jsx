@@ -1,7 +1,22 @@
+/**
+ * Reviews.jsx
+ * This page allows users to provide feedback and reviews for CRCCF.
+ * It includes an interactive star rating component and a professional submission modal.
+ */
+
 import { useState, useEffect } from 'react';
 import { Star, X, Send, MessageSquarePlus, CheckCircle2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
+/**
+ * StarRating Component
+ * An interactive star picker for selecting a rating value.
+ * 
+ * @param {Object} props
+ * @param {number} props.value - The current rating value.
+ * @param {Function} props.onChange - Callback triggered when a star is clicked.
+ * @param {number} [props.size=28] - The size of the stars.
+ */
 function StarRating({ value, onChange, size = 28 }) {
   const [hovered, setHovered] = useState(0);
   return (
@@ -30,6 +45,15 @@ function StarRating({ value, onChange, size = 28 }) {
   );
 }
 
+/**
+ * ReviewModal Component
+ * A modal dialog for submitting a user review.
+ * Includes validation and a success state.
+ * 
+ * @param {Object} props
+ * @param {boolean} props.isOpen - Whether the modal is currently visible.
+ * @param {Function} props.onClose - Callback to close the modal.
+ */
 function ReviewModal({ isOpen, onClose }) {
   const [rating, setRating] = useState(0);
   const [name, setName] = useState('');
@@ -38,6 +62,7 @@ function ReviewModal({ isOpen, onClose }) {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -47,6 +72,7 @@ function ReviewModal({ isOpen, onClose }) {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  // Reset form state after modal close animation
   useEffect(() => {
     if (!isOpen) {
       const timer = setTimeout(() => {
@@ -57,6 +83,10 @@ function ReviewModal({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
+  /**
+   * Validates the form fields.
+   * @returns {boolean} True if the form is valid.
+   */
   const validate = () => {
     const e = {};
     if (!name.trim()) e.name = 'Name is required';
@@ -66,6 +96,9 @@ function ReviewModal({ isOpen, onClose }) {
     return Object.keys(e).length === 0;
   };
 
+  /**
+   * Handles the form submission.
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -170,18 +203,23 @@ function ReviewModal({ isOpen, onClose }) {
   );
 }
 
+/**
+ * Reviews Page Component
+ * Renders the main view for community feedback and review submission.
+ */
 export default function Reviews() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-600 font-sans flex flex-col relative overflow-hidden p-4 sm:p-6">
-      {/* Background Decorations */}
+      {/* Background Decorations - Subtle grid and glowing orbs */}
       <div className="absolute inset-0 bg-[radial-gradient(circle,#CBD5E1_1px,transparent_1px)] bg-[size:24px_24px] opacity-15 pointer-events-none z-0" />
       <div className="absolute w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(37,99,235,0.1)_0%,transparent_70%)] rounded-full blur-[50px] z-0 pointer-events-none -top-[10%] -right-[5%] animate-[pulse-glow_8s_ease-in-out_infinite_alternate]" />
       <div className="absolute w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(37,99,235,0.1)_0%,transparent_70%)] rounded-full blur-[50px] z-0 pointer-events-none -bottom-[10%] -left-[5%] animate-[pulse-glow_8s_ease-in-out_infinite_alternate]" style={{ animationDelay: '-4s' }} />
 
       <Navbar />
 
+      {/* Main Review Section - Call to action for community feedback */}
       <section className="flex-1 flex flex-col items-center justify-center text-center z-10 max-w-[580px] mx-auto w-full bg-white/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 md:p-16 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_20px_40px_-10px_rgba(0,0,0,0.08),inset_0_0_20px_rgba(255,255,255,0.5)] animate-fade-in-up mt-8">
         <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 py-2 px-4 rounded-full text-xs font-bold uppercase tracking-wider mb-6 shadow-sm">
           <Star size={14} fill="currentColor" />
@@ -205,8 +243,10 @@ export default function Reviews() {
         </button>
       </section>
 
+      {/* Review Submission Modal */}
       <ReviewModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }
+
 

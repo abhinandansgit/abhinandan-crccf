@@ -1,3 +1,14 @@
+/**
+ * servicesData.js
+ * Contains the static data for all IT services and their categories.
+ * This data is used to populate the IT Services page and detail views.
+ */
+
+/**
+ * List of all available IT services.
+ * Each service object contains identification, display information, and detailed content.
+ * @type {Array<Object>}
+ */
 export const services = [
   {
     id: 1, title: "Custom Software Development",
@@ -19,6 +30,7 @@ export const services = [
       ]
     }
   },
+  // ... [Other service objects remain unchanged]
   {
     id: 2, title: "Web & Mobile App Development",
     shortDesc: "High-performance, responsive apps for web and mobile platforms.",
@@ -382,6 +394,11 @@ export const services = [
   }
 ];
 
+/**
+ * Categories for filtering the services.
+ * Each category object contains an ID and a human-readable label.
+ * @type {Array<Object>}
+ */
 export const categories = [
   { id: 'all', label: 'All Services' },
   { id: 'development', label: 'Development' },
@@ -392,3 +409,4 @@ export const categories = [
   { id: 'design', label: 'Design' },
   { id: 'consulting', label: 'Consulting' },
 ];
+

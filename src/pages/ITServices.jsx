@@ -1,3 +1,10 @@
+/**
+ * ITServices.jsx
+ * This page displays the comprehensive list of IT services offered by CRCCF.
+ * It includes category filtering, service cards with intersection observer animations,
+ * and a detailed modal view for each service.
+ */
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Code2, Smartphone, Building2, Brain, Cloud, ShieldCheck, Search,
@@ -8,16 +15,29 @@ import {
 import Navbar from '../components/Navbar';
 import { services, categories } from '../data/servicesData';
 
+/**
+ * Maps icon names from servicesData to Lucide React components.
+ */
 const iconMap = {
   Code2, Smartphone, Building2, Brain, Cloud, ShieldCheck, Search,
   Link2, Cpu, Workflow, Layers, MessageCircle, Fingerprint,
   ClipboardList, KeyRound, Bug, GitBranch, Palette, Wrench, Factory
 };
 
+/**
+ * ServiceCard Component
+ * Displays a summary of a service in a card format with entrance animations.
+ * 
+ * @param {Object} props
+ * @param {Object} props.service - The service data object.
+ * @param {number} props.index - The index of the card (used for animation delay).
+ * @param {Function} props.onLearnMore - Callback triggered when the 'Learn More' button is clicked.
+ */
 function ServiceCard({ service, index, onLearnMore }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
+  // Use Intersection Observer to trigger visibility animation when card enters viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(entry.target); } },
@@ -46,15 +66,25 @@ function ServiceCard({ service, index, onLearnMore }) {
       <button className="inline-flex items-center gap-1.5 text-[0.85rem] font-bold cursor-pointer transition-all duration-300 hover:gap-2.5 bg-transparent border-none p-0" onClick={() => onLearnMore(service)} style={{ color: service.accent }}>
         Learn More <ArrowRight size={16} />
       </button>
+      {/* Decorative blurred background blob on hover */}
       <div className="absolute -bottom-10 -right-10 w-[120px] h-[120px] rounded-full opacity-0 blur-[50px] transition-opacity duration-500 pointer-events-none group-hover:opacity-15" style={{ background: service.accent }} />
     </div>
   );
 }
 
+/**
+ * ServiceModal Component
+ * Full-screen detailed view of a selected service.
+ * 
+ * @param {Object} props
+ * @param {Object} props.service - The detailed service data object.
+ * @param {Function} props.onClose - Callback to close the modal.
+ */
 function ServiceModal({ service, onClose }) {
   const [show, setShow] = useState(false);
   const IconComp = iconMap[service.icon] || Code2;
 
+  // Trigger entry animation and handle body scroll locking
   useEffect(() => {
     requestAnimationFrame(() => requestAnimationFrame(() => setShow(true)));
     document.body.style.overflow = 'hidden';
@@ -63,6 +93,9 @@ function ServiceModal({ service, onClose }) {
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleKey); };
   }, []);
 
+  /**
+   * Closes the modal with a delay to allow for exit animations.
+   */
   const handleClose = useCallback(() => {
     setShow(false);
     setTimeout(onClose, 350);
@@ -72,7 +105,7 @@ function ServiceModal({ service, onClose }) {
     <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-300 p-4 sm:p-5 ${show ? 'bg-slate-900/55 backdrop-blur-md' : 'bg-slate-900/0 backdrop-blur-none'}`} onClick={handleClose}>
       <div className={`relative w-full max-w-[720px] max-h-[80vh] md:max-h-[90vh] bg-white rounded-2xl md:rounded-[24px] overflow-hidden flex flex-col shadow-[0_25px_80px_rgba(0,0,0,0.25)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${show ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`} onClick={(e) => e.stopPropagation()}>
         
-        {/* Modal Header */}
+        {/* Modal Header with Service Identity */}
         <div className="relative p-5 sm:p-8 md:p-10 text-white overflow-hidden shrink-0" style={{ background: `linear-gradient(135deg, ${service.accent}, ${service.accent}CC)` }}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:24px_24px,32px_32px] pointer-events-none" />
           <button className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center bg-white/20 border border-white/30 text-white cursor-pointer transition-all duration-300 z-10 hover:bg-white/35 hover:rotate-90" onClick={handleClose}>
@@ -85,12 +118,13 @@ function ServiceModal({ service, onClose }) {
           <p className="text-sm opacity-85 leading-relaxed">{service.shortDesc}</p>
         </div>
 
-        {/* Modal Content */}
+        {/* Modal Content - Scrollable area */}
         <div className="p-5 md:p-8 overflow-y-auto flex-1">
           {service.detail.paragraphs.map((p, i) => (
             <p key={i} className={`text-[0.85rem] md:text-[0.92rem] text-slate-600 leading-relaxed ${i === service.detail.paragraphs.length - 1 ? 'mb-6' : 'mb-3 md:mb-4'}`}>{p}</p>
           ))}
 
+          {/* Key Offerings Section */}
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 md:p-6 mt-4 md:mt-6">
             <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 mb-4">
               <Sparkles size={18} style={{ color: service.accent }} /> Key Offerings
@@ -110,16 +144,22 @@ function ServiceModal({ service, onClose }) {
   );
 }
 
+/**
+ * ITServices Page Component
+ * Renders the main view for exploring various IT services.
+ */
 export default function ITServices() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedService, setSelectedService] = useState(null);
   const [heroVisible, setHeroVisible] = useState(false);
   const heroRef = useRef(null);
 
+  // Trigger hero section entrance animation
   useEffect(() => {
     setHeroVisible(true);
   }, []);
 
+  // Filter services based on selected category
   const filtered = activeCategory === 'all'
     ? services
     : services.filter(s => s.category === activeCategory);
@@ -127,7 +167,7 @@ export default function ITServices() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 relative overflow-hidden">
       
-      {/* Floating Background Elements */}
+      {/* Floating Background Icons for visual flair */}
       <div className="absolute top-60 left-10 text-blue-600/10 animate-float-slow"><Shield size={100} /></div>
       <div className="absolute bottom-40 right-16 text-blue-600/10 animate-float-slow" style={{ animationDelay: '3s' }}><Lock size={120} /></div>
       <div className="absolute top-1/2 left-1/2 text-blue-600/5 animate-float-slow" style={{ animationDelay: '5s' }}><Server size={80} /></div>
@@ -138,7 +178,7 @@ export default function ITServices() {
 
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero Section - Introduces the services page */}
       <section ref={heroRef} className="relative pt-8 md:pt-16 px-6 pb-12 text-center overflow-hidden z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(37,99,235,0.08)_0%,transparent_60%),radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.06)_0%,transparent_60%)] pointer-events-none" />
         <div className={`max-w-5xl mx-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -152,6 +192,7 @@ export default function ITServices() {
             Empowering businesses with cutting-edge technology solutions across 
             <strong className="text-blue-600 font-bold"> 20+ specialized domains</strong>
           </p>
+          {/* Service Statistics Grid */}
           <div className="flex items-center gap-4 sm:gap-12 py-3 sm:py-5 px-6 sm:px-12 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex-wrap justify-center sm:justify-around max-w-4xl mx-auto">
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">20+</span>
@@ -171,7 +212,7 @@ export default function ITServices() {
         </div>
       </section>
 
-      {/* Category Filter */}
+      {/* Category Filter Navigation */}
       <section className="px-0 sm:px-6 pb-8 max-w-7xl mx-auto w-full relative z-10">
         <div className="flex gap-2 overflow-x-auto p-1 sm:p-2 scrollbar-none justify-start sm:justify-center flex-nowrap sm:flex-wrap px-4 sm:px-0">
           {categories.map(cat => (
@@ -187,22 +228,24 @@ export default function ITServices() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Services Grid Section */}
       <section className="px-4 sm:px-6 pb-16 max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-4 md:gap-5">
           {filtered.map((service, idx) => (
             <ServiceCard key={service.id} service={service} index={idx} onLearnMore={setSelectedService} />
           ))}
         </div>
+        {/* Empty State */}
         {filtered.length === 0 && (
           <p className="text-center text-slate-500 py-16 text-lg">No services found in this category.</p>
         )}
       </section>
 
-      {/* Modal */}
+      {/* Detailed Service Modal */}
       {selectedService && (
         <ServiceModal service={selectedService} onClose={() => setSelectedService(null)} />
       )}
     </div>
   );
 }
+

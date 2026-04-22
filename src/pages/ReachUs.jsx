@@ -1,3 +1,10 @@
+/**
+ * ReachUs.jsx
+ * The 'Contact Us' page for CRCCF.
+ * Features a glassmorphic social links dock, a professional contact form with floating labels,
+ * emergency report links, and a grid of global office locations.
+ */
+
 import { Shield, Lock, Server, AlertTriangle, PhoneCall, MapPin } from 'lucide-react';
 import { 
   FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube, 
@@ -6,7 +13,15 @@ import {
 import Navbar from '../components/Navbar';
 import SecurityTicker from '../components/SecurityTicker';
 
+/**
+ * ReachUs component provides the main contact interface for the application.
+ * @returns {JSX.Element} The rendered contact page.
+ */
 export default function ReachUs() {
+  /**
+   * Configuration for social media buttons.
+   * Includes icon, label, link, and hover styling.
+   */
   const socialButtons = [
     { icon: <FaFacebookF />, label: 'Facebook', link: '#', color: 'hover:text-blue-600 hover:shadow-[0_0_15px_rgba(37,99,235,0.8)]' },
     { icon: <FaTwitter />, label: 'Twitter', link: '#', color: 'hover:text-blue-400 hover:shadow-[0_0_15px_rgba(96,165,250,0.8)]' },
@@ -23,7 +38,7 @@ export default function ReachUs() {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-bg-main">
       
-      {/* Background Cyber Particles */}
+      {/* Background Cyber Particles - Decorative floating icons */}
       <div className="absolute top-40 left-20 text-primary/10 animate-float-slow">
         <Shield size={120} />
       </div>
@@ -34,25 +49,20 @@ export default function ReachUs() {
         <Server size={80} />
       </div>
 
-      {/* Decorative Dots Pattern */}
+      {/* Decorative Dots Patterns */}
       <div className="absolute top-32 right-10 w-64 h-64 bg-dots-pattern opacity-60 pointer-events-none animate-float" style={{ animationDelay: '0s' }}></div>
       <div className="absolute bottom-10 left-10 w-48 h-48 bg-dots-pattern opacity-60 pointer-events-none animate-float" style={{ animationDelay: '2s' }}></div>
 
-      {/* Background glowing orb */}
+      {/* Background glowing orb for depth */}
       <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-      {/* Navbar */}
       <Navbar />
 
-      {/* Live Security Ticker */}
-      {/*<SecurityTicker />*/}
-
-      {/* Main Content */}
       <main className="grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10 flex flex-col justify-center overflow-hidden">
         
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center lg:items-start h-full mt-4">
           
-          {/* Left Column */}
+          {/* Left Column - Hero Content and Social Links */}
           <div className="flex-1 w-full max-w-xl text-left">
             <h1 className="animate-fade-in-up text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-[#0F172A] to-primary mb-4 sm:mb-6 uppercase tracking-tight leading-tight">
               CONNECT <br/>WITH US
@@ -61,7 +71,7 @@ export default function ReachUs() {
               We're here to help. Reach out to CRCCF on any of our official platforms to stay informed, get support, or join our global mission to protect the digital world.
             </p>
 
-            {/* Glassmorphic Dock for Icons */}
+            {/* Glassmorphic Dock for Icons - Social navigation */}
             <div className="animate-fade-in-up delay-200 bg-white/40 backdrop-blur-xl border border-white/60 p-6 sm:p-8 rounded-3xl sm:rounded-4xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden group mb-8">
               <div className="absolute inset-0 bg-gradient-primary opacity-5 group-hover:opacity-10 transition-opacity duration-700"></div>
               
@@ -84,7 +94,7 @@ export default function ReachUs() {
               </div>
             </div>
 
-            {/* Emergency Info Cards */}
+            {/* Emergency Info Cards - Important links for immediate action */}
             <div className="animate-fade-in-up delay-300 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
               <div className="bg-red-50 border border-red-100 rounded-2xl p-4 sm:p-5 flex items-start gap-3 sm:gap-4 hover:shadow-md transition-shadow">
                 <div className="bg-red-100 p-2 sm:p-3 rounded-full text-red-600 shrink-0">
@@ -117,13 +127,11 @@ export default function ReachUs() {
 
           </div>
 
-          {/* Right Column: Contact Form */}
+          {/* Right Column - Inquiry Form and Map */}
           <div className="animate-fade-in-up delay-400 w-full lg:w-[460px] xl:w-[520px] shrink-0 transform transition-all duration-700 hover:scale-[1.01] sm:hover:scale-[1.02]">
             <div className="bg-bg-card rounded-4xl shadow-[0_20px_50px_rgb(0,0,0,0.1)] p-6 sm:p-8 border border-white/50 backdrop-blur-xs relative overflow-hidden">
               
-              {/* Decorative top gradient bar */}
               <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-primary"></div>
-
               <h3 className="text-xl sm:text-2xl font-bold text-text-heading mb-6">Drop a Message</h3>
 
               <form className="flex flex-col gap-5 sm:gap-6 relative z-10">
@@ -187,7 +195,7 @@ export default function ReachUs() {
                 </button>
               </form>
 
-              {/* Map */}
+              {/* Interactive Office Map */}
               <div className="mt-8 rounded-2xl overflow-hidden shadow-inner border border-gray-200/60 h-40 relative">
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.8202669580455!2d85.80516117523825!3d20.349042381135575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1908e025984c55%3A0xee1fcd1f11e55141!2sDLF%20Cyber%20City!5e0!3m2!1sen!2sin!4v1776796765022!5m2!1sen!2sin" 
@@ -203,7 +211,7 @@ export default function ReachUs() {
 
         </div>
 
-        {/* Global Branch Locations */}
+        {/* Global Branch Locations Section */}
         <div className="mt-16 sm:mt-24 w-full animate-fade-in-up delay-500">
           <div className="flex items-center gap-4 mb-8 sm:mb-10">
             <h3 className="text-2xl sm:text-3xl font-extrabold text-text-heading tracking-tight">Our Office Branches</h3>
@@ -211,7 +219,7 @@ export default function ReachUs() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto">
-            {/* Branch 1 */}
+            {/* Office Branch Card - New York */}
             <div className="bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-2xl p-5 hover:shadow-[0_15px_40px_rgba(37,99,235,0.08)] transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
               <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
@@ -227,7 +235,7 @@ export default function ReachUs() {
               </div>
             </div>
 
-            {/* Branch 2 */}
+            {/* Office Branch Card - London */}
             <div className="bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-2xl p-5 hover:shadow-[0_15px_40px_rgba(37,99,235,0.08)] transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
               <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
@@ -243,7 +251,7 @@ export default function ReachUs() {
               </div>
             </div>
 
-            {/* Branch 3 */}
+            {/* Office Branch Card - Singapore */}
             <div className="bg-white/60 backdrop-blur-md border border-gray-200/60 rounded-2xl p-5 hover:shadow-[0_15px_40px_rgba(37,99,235,0.08)] transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
               <div className="bg-blue-50 w-10 h-10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
@@ -264,3 +272,4 @@ export default function ReachUs() {
     </div>
   );
 }
+
