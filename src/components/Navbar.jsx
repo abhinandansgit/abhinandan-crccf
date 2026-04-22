@@ -13,6 +13,7 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link to="/" className="hover:text-primary-light transition-colors">Home</Link>
           <Link to="/it-services" className="hover:text-primary-light transition-colors">IT Services</Link>
+          <Link to="/reviews" className="hover:text-primary-light transition-colors">Reviews</Link>
           <Link to="/" className="hover:text-primary-light transition-colors">Contact</Link>
           <a href="#" className="bg-primary hover:bg-primary-hover text-white px-4 py-2 sm:px-5 sm:py-2 rounded-md font-semibold transition-colors shadow-xs animate-pulse-glow">
             Official Website

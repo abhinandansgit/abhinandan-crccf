@@ -1,0 +1,281 @@
+/* High-End & Highly Attractive Review Module */
+.rv-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-body);
+  font-family: 'Outfit', 'Inter', sans-serif; /* Using a more modern font if available */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+/* Enhanced Background Decorations */
+.rv-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #CBD5E1 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rv-bg-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: 0;
+  pointer-events: none;
+  animation: orb-float 15s ease-in-out infinite alternate;
+}
+
+.rv-bg-orb--1 { top: -10%; right: -5%; animation-delay: 0s; }
+.rv-bg-orb--2 { bottom: -10%; left: -5%; animation-delay: -7s; }
+
+@keyframes orb-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 50px) scale(1.1); }
+}
+
+/* Premium Glassmorphism CTA Section */
+.rv-simple {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 40px;
+  padding: 4rem 2rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 20px 40px -10px rgba(0, 0, 0, 0.08),
+    inset 0 0 20px rgba(255, 255, 255, 0.5);
+  animation: fade-in-up 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+}
+
+.rv-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.rv-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Ultra-Attractive Button */
+.rv-cta-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1d4ed8 100%);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: none;
+  box-shadow: 0 12px 24px -6px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.rv-cta-btn:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.5);
+}
+
+.rv-cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #60a5fa, #2563eb);
+  border-radius: 18px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rv-cta-btn:hover::before {
+  opacity: 0.5;
+}
+
+/* Attractive Modal Overlay */
+.rv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rv-modal-overlay--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Stylish Modal Card */
+.rv-modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 1);
+  transform: scale(0.9) translateY(30px);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 3rem 2.5rem;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+}
+
+.rv-modal-overlay--active .rv-modal {
+  transform: scale(1) translateY(0);
+}
+
+.rv-modal__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+.rv-modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  color: #64748b;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rv-modal__close:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  transform: rotate(90deg);
+}
+
+/* Attractive Star Rating */
+.rv-star-btn {
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.rv-star-btn:hover {
+  transform: scale(1.4);
+}
+
+/* Input Fields */
+.rv-input {
+  width: 100%;
+  background: #fcfdfe;
+  border: 2px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 0.875rem 1.25rem;
+  color: var(--color-text-heading);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.rv-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 5px var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+.rv-submit-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: white;
+  padding: 1.125rem;
+  border-radius: 14px;
+  font-weight: 800;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
+}
+
+.rv-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.3);
+  filter: brightness(1.05);
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
