@@ -141,7 +141,7 @@ export default function ITServices() {
       {/* Hero Section */}
       <section ref={heroRef} className="relative pt-8 md:pt-16 px-6 pb-12 text-center overflow-hidden z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(37,99,235,0.08)_0%,transparent_60%),radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.06)_0%,transparent_60%)] pointer-events-none" />
-        <div className={`max-w-[800px] mx-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`max-w-5xl mx-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-1.5 py-1.5 px-4 bg-gradient-to-br from-blue-600/10 to-blue-500/5 border border-blue-600/20 rounded-full text-[0.8rem] font-semibold text-blue-600 mb-6 tracking-wide">
             <Sparkles size={14} /> Professional IT Solutions
           </div>
@@ -152,7 +152,7 @@ export default function ITServices() {
             Empowering businesses with cutting-edge technology solutions across 
             <strong className="text-blue-600 font-bold"> 20+ specialized domains</strong>
           </p>
-          <div className="inline-flex items-center gap-3 sm:gap-6 py-3 sm:py-4 px-4 sm:px-8 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex-wrap justify-center">
+          <div className="flex items-center gap-4 sm:gap-12 py-3 sm:py-5 px-6 sm:px-12 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex-wrap justify-center sm:justify-around max-w-4xl mx-auto">
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">20+</span>
               <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold text-slate-500 uppercase tracking-widest">Services</span>
