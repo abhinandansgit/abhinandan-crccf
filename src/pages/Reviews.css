@@ -144,16 +144,16 @@
 .rv-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.3);
-  backdrop-filter: blur(20px);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: 1.5rem; /* Ensures gap from all screen edges */
   opacity: 0;
   visibility: hidden;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .rv-modal-overlay--active {
@@ -166,14 +166,17 @@
   background: #ffffff;
   width: 100%;
   max-width: 480px;
-  border-radius: 32px;
+  max-height: calc(100dvh - 3rem); /* Prevents touching top/bottom */
+  overflow-y: auto; /* Scrollable if content is long */
+  border-radius: 24px;
   position: relative;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 1);
-  transform: scale(0.9) translateY(30px);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  padding: 3rem 2.5rem;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 2.5rem 1.5rem;
   box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-light) transparent;
 }
 
 .rv-modal-overlay--active .rv-modal {
@@ -191,19 +194,20 @@
 
 .rv-modal__close {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
   background: #f8fafc;
   border: 1px solid #f1f5f9;
   color: #64748b;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  z-index: 10;
 }
 
 .rv-modal__close:hover {
