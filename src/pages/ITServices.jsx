@@ -6,9 +6,7 @@ import {
   X, CheckCircle2, ArrowRight, Sparkles, Shield, Lock, Server
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import SecurityTicker from '../components/SecurityTicker';
 import { services, categories } from '../data/servicesData';
-import './ITServices.css';
 
 const iconMap = {
   Code2, Smartphone, Building2, Brain, Cloud, ShieldCheck, Search,
@@ -34,19 +32,21 @@ function ServiceCard({ service, index, onLearnMore }) {
   return (
     <div
       ref={ref}
-      className={`its-card ${visible ? 'its-card--visible' : ''}`}
-      style={{ transitionDelay: `${(index % 6) * 80}ms`, '--accent': service.accent }}
+      className={`relative bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-2xl p-5 md:p-7 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:scale-100 group ${visible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-7 scale-95'}`}
+      style={{ transitionDelay: `${(index % 6) * 80}ms` }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = service.accent; e.currentTarget.style.boxShadow = `0 12px 40px rgba(0,0,0,0.08), 0 0 0 1px ${service.accent}`; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ''; e.currentTarget.style.boxShadow = ''; }}
     >
-      <div className="its-card__accent" />
-      <div className="its-card__icon" style={{ background: `${service.accent}15`, color: service.accent }}>
-        <IconComp size={26} />
+      <div className="absolute top-0 left-0 w-full h-[3px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: service.accent }} />
+      <div className="w-11 h-11 md:w-[52px] md:h-[52px] rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:-rotate-3" style={{ background: `${service.accent}15`, color: service.accent }}>
+        <IconComp className="w-5 h-5 md:w-6 md:h-6" />
       </div>
-      <h3 className="its-card__title">{service.title}</h3>
-      <p className="its-card__desc">{service.shortDesc}</p>
-      <button className="its-card__link" onClick={() => onLearnMore(service)} style={{ color: service.accent }}>
+      <h3 className="text-[1.05rem] font-bold text-slate-900 mb-2 leading-tight">{service.title}</h3>
+      <p className="text-sm text-slate-500 leading-relaxed mb-4">{service.shortDesc}</p>
+      <button className="inline-flex items-center gap-1.5 text-[0.85rem] font-bold cursor-pointer transition-all duration-300 hover:gap-2.5 bg-transparent border-none p-0" onClick={() => onLearnMore(service)} style={{ color: service.accent }}>
         Learn More <ArrowRight size={16} />
       </button>
-      <div className="its-card__glow" style={{ background: service.accent }} />
+      <div className="absolute -bottom-10 -right-10 w-[120px] h-[120px] rounded-full opacity-0 blur-[50px] transition-opacity duration-500 pointer-events-none group-hover:opacity-15" style={{ background: service.accent }} />
     </div>
   );
 }
@@ -69,33 +69,35 @@ function ServiceModal({ service, onClose }) {
   }, [onClose]);
 
   return (
-    <div className={`its-modal-overlay ${show ? 'its-modal-overlay--active' : ''}`} onClick={handleClose}>
-      <div className={`its-modal ${show ? 'its-modal--active' : ''}`} onClick={(e) => e.stopPropagation()}>
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-300 p-4 sm:p-5 ${show ? 'bg-slate-900/55 backdrop-blur-md' : 'bg-slate-900/0 backdrop-blur-none'}`} onClick={handleClose}>
+      <div className={`relative w-full max-w-[720px] max-h-[80vh] md:max-h-[90vh] bg-white rounded-2xl md:rounded-[24px] overflow-hidden flex flex-col shadow-[0_25px_80px_rgba(0,0,0,0.25)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${show ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`} onClick={(e) => e.stopPropagation()}>
         
         {/* Modal Header */}
-        <div className="its-modal__header" style={{ background: `linear-gradient(135deg, ${service.accent}, ${service.accent}CC)` }}>
-          <div className="its-modal__header-pattern" />
-          <button className="its-modal__close" onClick={handleClose}><X size={20} /></button>
-          <div className="its-modal__header-icon">
-            <IconComp size={40} />
+        <div className="relative p-5 sm:p-8 md:p-10 text-white overflow-hidden shrink-0" style={{ background: `linear-gradient(135deg, ${service.accent}, ${service.accent}CC)` }}>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:24px_24px,32px_32px] pointer-events-none" />
+          <button className="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center bg-white/20 border border-white/30 text-white cursor-pointer transition-all duration-300 z-10 hover:bg-white/35 hover:rotate-90" onClick={handleClose}>
+            <X size={20} />
+          </button>
+          <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center mb-3 md:mb-4 backdrop-blur-md">
+            <IconComp className="w-6 h-6 md:w-10 md:h-10" />
           </div>
-          <h2 className="its-modal__header-title">{service.title}</h2>
-          <p className="its-modal__header-badge">{service.shortDesc}</p>
+          <h2 className="text-xl md:text-[1.6rem] font-extrabold mb-2 tracking-tight">{service.title}</h2>
+          <p className="text-sm opacity-85 leading-relaxed">{service.shortDesc}</p>
         </div>
 
         {/* Modal Content */}
-        <div className="its-modal__body">
+        <div className="p-5 md:p-8 overflow-y-auto flex-1">
           {service.detail.paragraphs.map((p, i) => (
-            <p key={i} className="its-modal__paragraph">{p}</p>
+            <p key={i} className={`text-[0.85rem] md:text-[0.92rem] text-slate-600 leading-relaxed ${i === service.detail.paragraphs.length - 1 ? 'mb-6' : 'mb-3 md:mb-4'}`}>{p}</p>
           ))}
 
-          <div className="its-modal__offerings">
-            <h4 className="its-modal__offerings-title">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 md:p-6 mt-4 md:mt-6">
+            <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 mb-4">
               <Sparkles size={18} style={{ color: service.accent }} /> Key Offerings
             </h4>
-            <ul className="its-modal__offerings-list">
+            <ul className="flex flex-col gap-2.5">
               {service.detail.keyOfferings.map((item, i) => (
-                <li key={i} className="its-modal__offering-item" style={{ animationDelay: `${400 + i * 100}ms` }}>
+                <li key={i} className={`flex items-start gap-2.5 text-[0.8rem] md:text-[0.88rem] text-slate-700 leading-relaxed transition-all duration-500 ease-out ${show ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3'}`} style={{ transitionDelay: `${400 + i * 100}ms` }}>
                   <CheckCircle2 size={18} style={{ color: service.accent, flexShrink: 0 }} />
                   <span>{item}</span>
                 </li>
@@ -123,78 +125,77 @@ export default function ITServices() {
     : services.filter(s => s.category === activeCategory);
 
   return (
-    <div className="min-h-screen flex flex-col bg-bg-main relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-slate-50 relative overflow-hidden">
       
       {/* Floating Background Elements */}
-      <div className="absolute top-60 left-10 text-primary/10 animate-float-slow"><Shield size={100} /></div>
-      <div className="absolute bottom-40 right-16 text-primary/10 animate-float-slow" style={{ animationDelay: '3s' }}><Lock size={120} /></div>
-      <div className="absolute top-1/2 left-1/2 text-primary/5 animate-float-slow" style={{ animationDelay: '5s' }}><Server size={80} /></div>
+      <div className="absolute top-60 left-10 text-blue-600/10 animate-float-slow"><Shield size={100} /></div>
+      <div className="absolute bottom-40 right-16 text-blue-600/10 animate-float-slow" style={{ animationDelay: '3s' }}><Lock size={120} /></div>
+      <div className="absolute top-1/2 left-1/2 text-blue-600/5 animate-float-slow" style={{ animationDelay: '5s' }}><Server size={80} /></div>
       <div className="absolute top-32 right-10 w-64 h-64 bg-dots-pattern opacity-40 pointer-events-none animate-float"></div>
       <div className="absolute bottom-20 left-20 w-48 h-48 bg-dots-pattern opacity-40 pointer-events-none animate-float" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <Navbar />
-      {/*<SecurityTicker />*/}
 
       {/* Hero Section */}
-      <section ref={heroRef} className="its-hero relative z-10">
-        <div className="its-hero__bg" />
-        <div className={`its-hero__content ${heroVisible ? 'its-hero__content--visible' : ''}`}>
-          <div className="its-hero__badge">
+      <section ref={heroRef} className="relative pt-8 md:pt-16 px-6 pb-12 text-center overflow-hidden z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(37,99,235,0.08)_0%,transparent_60%),radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.06)_0%,transparent_60%)] pointer-events-none" />
+        <div className={`max-w-[800px] mx-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-1.5 py-1.5 px-4 bg-gradient-to-br from-blue-600/10 to-blue-500/5 border border-blue-600/20 rounded-full text-[0.8rem] font-semibold text-blue-600 mb-6 tracking-wide">
             <Sparkles size={14} /> Professional IT Solutions
           </div>
-          <h1 className="its-hero__title">
-            Our Software <span className="its-hero__title-accent">Services</span>
+          <h1 className="text-[clamp(2rem,6vw,3.8rem)] font-extrabold text-slate-900 leading-tight mb-5 tracking-tight">
+            Our Software <span className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">Services</span>
           </h1>
-          <p className="its-hero__subtitle">
+          <p className="text-[clamp(0.95rem,2vw,1.15rem)] text-slate-600 max-w-[600px] mx-auto mb-8 leading-relaxed">
             Empowering businesses with cutting-edge technology solutions across 
-            <strong className="text-primary"> 20+ specialized domains</strong>
+            <strong className="text-blue-600 font-bold"> 20+ specialized domains</strong>
           </p>
-          <div className="its-hero__stats">
-            <div className="its-hero__stat">
-              <span className="its-hero__stat-number">20+</span>
-              <span className="its-hero__stat-label">Services</span>
+          <div className="inline-flex items-center gap-3 sm:gap-6 py-3 sm:py-4 px-4 sm:px-8 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl sm:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex-wrap justify-center">
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">20+</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold text-slate-500 uppercase tracking-widest">Services</span>
             </div>
-            <div className="its-hero__stat-divider" />
-            <div className="its-hero__stat">
-              <span className="its-hero__stat-number">100%</span>
-              <span className="its-hero__stat-label">Custom Built</span>
+            <div className="w-[1px] h-9 bg-gradient-to-b from-transparent via-slate-300 to-transparent hidden sm:block" />
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">100%</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold text-slate-500 uppercase tracking-widest">Custom Built</span>
             </div>
-            <div className="its-hero__stat-divider" />
-            <div className="its-hero__stat">
-              <span className="its-hero__stat-number">24/7</span>
-              <span className="its-hero__stat-label">Support</span>
+            <div className="w-[1px] h-9 bg-gradient-to-b from-transparent via-slate-300 to-transparent hidden sm:block" />
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">24/7</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold text-slate-500 uppercase tracking-widest">Support</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="its-filter relative z-10">
-        <div className="its-filter__track">
+      <section className="px-0 sm:px-6 pb-8 max-w-7xl mx-auto w-full relative z-10">
+        <div className="flex gap-2 overflow-x-auto p-1 sm:p-2 scrollbar-none justify-start sm:justify-center flex-nowrap sm:flex-wrap px-4 sm:px-0">
           {categories.map(cat => (
             <button
               key={cat.id}
-              className={`its-filter__btn ${activeCategory === cat.id ? 'its-filter__btn--active' : ''}`}
+              className={`inline-flex items-center gap-1.5 py-2 px-4 border rounded-full text-[0.82rem] font-semibold whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] backdrop-blur-md ${activeCategory === cat.id ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border-transparent shadow-[0_4px_15px_rgba(37,99,235,0.35)] hover:-translate-y-[2px] hover:shadow-[0_6px_20px_rgba(37,99,235,0.45)]' : 'border-slate-200 text-slate-600 bg-white/80 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-600/5 hover:-translate-y-[1px]'}`}
               onClick={() => setActiveCategory(cat.id)}
             >
               {cat.label}
-              {activeCategory === cat.id && <span className="its-filter__count">{cat.id === 'all' ? services.length : services.filter(s => s.category === cat.id).length}</span>}
+              {activeCategory === cat.id && <span className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full bg-white/25 text-[0.7rem] font-bold">{cat.id === 'all' ? services.length : services.filter(s => s.category === cat.id).length}</span>}
             </button>
           ))}
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="its-grid relative z-10">
-        <div className="its-grid__container">
+      <section className="px-4 sm:px-6 pb-16 max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-4 md:gap-5">
           {filtered.map((service, idx) => (
             <ServiceCard key={service.id} service={service} index={idx} onLearnMore={setSelectedService} />
           ))}
         </div>
         {filtered.length === 0 && (
-          <p className="text-center text-text-secondary py-16 text-lg">No services found in this category.</p>
+          <p className="text-center text-slate-500 py-16 text-lg">No services found in this category.</p>
         )}
       </section>
 
