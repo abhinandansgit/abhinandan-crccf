@@ -31,7 +31,7 @@ export default function Navbar() {
           
           {/* CTA Button */}
           <a href="#" className="bg-primary hover:bg-primary-hover text-white px-4 py-2 sm:px-5 sm:py-2 rounded-md font-semibold transition-colors shadow-xs animate-pulse-glow">
-            Official Website
+            
           </a>
         </nav>
         
