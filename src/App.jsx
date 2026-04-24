@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import ReachUs from './pages/ReachUs';
 import ITServices from './pages/ITServices';
 import Reviews from './pages/Reviews';
+import RecruitmentPolicies from "./pages/RecruitmentPolicies";
 
 /**
  * App component handles the top-level routing for the website.
@@ -23,6 +24,10 @@ function App() {
       
       {/* Customer reviews and testimonials */}
       <Route path="/reviews" element={<Reviews />} />
+      
+      {/* Recuitment policies */}
+      <Route path="/recruitment-policies" element={<RecruitmentPolicies />} />
+
     </Routes>
   );
 }
